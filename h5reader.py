@@ -3,7 +3,7 @@ David's Reader for VERTEX HDF5 hydro output files
 
 Usage:
 Run in directory
-y = h5reader_david.hydrof()
+y = h5reader.hydrof()
 y.den(index = 3) gives 3rd time step of density
 """
 
@@ -16,7 +16,7 @@ from matplotlib import pyplot as plt
 from matplotlib import animation
 import matplotlib
 import time
-import physconst as pc
+from astropy import constants
 from scipy import interpolate
 
 
@@ -24,7 +24,7 @@ from scipy import interpolate
 
 
 class hydrof():
-    def __init__(self, directory = None, model = 'z40_mix2d', index=0):
+    def __init__(self, model, directory = None, index=0):
         """
         alpha                lapse function
         beta1                shift vector (radial)
@@ -1076,7 +1076,7 @@ class hydrof():
                 dt = self.timestep[i]['dt']
                 ene = self.timestep[i]['ene']
                 if np.amax(ene)>1.e40:
-                    ene = ene*pc.Kepler.gee/pc.Kepler.c**2
+                    ene = ene*constants.G.to('cm^3/(g*s^2)').value/constants.c.to('cm/s').value**2
                 enu = self.timestep[i]['enu']
                 eph = self.timestep[i]['eph']
                 fnu = self.timestep[i]['fnu']
@@ -1191,12 +1191,12 @@ class hydrof():
                 gpo[1:,1:,:] = phi
 
 
-            wl =1.0/np.sqrt(1.0-(vex**2+vey**2+vez**2)/pc.Kepler.c**2)
+            wl =1.0/np.sqrt(1.0-(vex**2+vey**2+vez**2)/constants.c.to('cm/s').value**2)
             if np.amin(gpo)<= 0.0:
                 wl[:,:,:]=1.0
             else:
                 tau = ene*(den*wl)
-                ene=(ene+pc.Kepler.c**2*(1.0-wl))/wl+pre*(1.0-wl**2)/(den*wl**2)
+                ene=(ene+constants.c.to('cm/s').value**2*(1.0-wl))/wl+pre*(1.0-wl**2)/(den*wl**2)
 
             eneoff = -939.5731 + 8.8
 
