@@ -97,14 +97,12 @@ class hydrof():
         if directory is None:
             directory = '.'
 
-# Read all the hdf5 files into the object.
-        # hdf5 = []
-        # for root,dirs,files in os.walk(directory):
-        #     for name in files:
-        #         if name.startswith('z') and name[-8:].isnumeric():
-        #             hdf5 += [name]
+        search = os.path.join(directory, '{}.o*'.format(model))
+        print(f'Searching {search}')
+        hdf5 = glob(search)
 
-        hdf5 = glob(os.path.join(directory, '{}.o*'.format(model)))
+        if len(hdf5) == 0:
+            raise FileNotFoundError(f'No dump files found in the directory ({directory})')
 
         hdf5.sort()
         steps = []
