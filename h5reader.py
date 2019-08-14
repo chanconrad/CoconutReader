@@ -133,7 +133,7 @@ class hydrof():
         print('Number of timesteps: ',self.ngroups)
 
 # Method for changing the current index value
-    def set_index (self, index, silent = False):
+    def set_index (self, index, silent = True):
         self.index = index
         if not silent:
             print('Current index is now: ', self.index)
