@@ -107,8 +107,11 @@ class hydrof():
         hdf5.sort()
         steps = []
         for name in hdf5:
-            steps += [h5py.File(name, 'r')]
-            self.steps = steps
+            try:
+                steps += [h5py.File(name, 'r')]
+            except:
+                print('Warning: Could not open', name)
+        self.steps = steps
 
 # Creats a mapping key between indices of sub-timesteps and major-steps.
         key = {}
