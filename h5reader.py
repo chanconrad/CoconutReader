@@ -146,14 +146,15 @@ class hydrof():
 # The timestep loaded by default is the current index. But any timestep can be
 # loaded by providing the keyword argument: index=....
 
-    def read_array(self, var, **kwargs):
+    def read_array(self, var, silent=False, **kwargs):
         ok = True
         if bool(kwargs) is not False:
             index = kwargs['index']
             if isinstance(index, int) and 0<=index<=self.ngroups-1:
                 self.index = index
             else:
-                print('Error: Please choose an integer index between 0 and ',self.ngroups-1)
+                if not silent:
+                    print('Error: Please choose an integer index between 0 and ',self.ngroups-1)
                 ok = False
         if ok:
             try:
@@ -163,7 +164,8 @@ class hydrof():
                 value = np.transpose(value)
                 return value
             except KeyError:
-                print(f'Error: {var} not found')
+                if not silent:
+                    print(f'Error: {var} not found')
 
     def __getattr__(self, var, **kwargs):
         return self.read_array(var, **kwargs)
