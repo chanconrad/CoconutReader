@@ -541,7 +541,7 @@ class hydrof():
 
             j=np.where(pmin0 > pmin1)
             cnt = np.size(j)
-            if (cnt is not 0): pmin0[j]=pmin1[j]
+            if (cnt != 0): pmin0[j]=pmin1[j]
             krit[1:qx-2,:]=np.abs(pre[0:qx-3,:,0]-pre[2:qx-1,:,0])-(epsiln*pmin0)
             j=np.where(krit > 0.0)
             cnt = np.size(j)
@@ -551,7 +551,7 @@ class hydrof():
                 pmin0=pretot[:,0:qy-3]
                 pmin1=pretot[:,2:qy-1]
                 j=np.where(pmin0 > pmin1)
-                if (cnt is not 0): pmin0[j]=pmin1[j]
+                if (cnt != 0): pmin0[j]=pmin1[j]
                 krit[:,1:qy-2]=np.abs(pre[:,0:qy-3,0]-pre[:,2:qy-1,0])-(epsiln*pmin0)
                 j=np.where(krit > 0.0)
                 cnt = np.size(j)
